@@ -1,4 +1,7 @@
 Data Quality Automation Framework – BDD (Java, MySQL)
+
+This repository demonstrates a simple data quality automation framework built using Java, Cucumber (BDD), and MySQL to validate common ETL data validation scenarios.
+
 Overview
 
 This repository contains a lightweight automation framework created to validate data quality across a simple ETL pipeline.
