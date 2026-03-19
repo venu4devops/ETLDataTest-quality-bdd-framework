@@ -11,6 +11,7 @@ import java.util.List;
 
 public class QueryHelper {
 
+
     public int getSingleIntResult(String sql) throws Exception {
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -42,4 +43,39 @@ public class QueryHelper {
 
         return columns;
     }
+    public boolean hasDuplicates(String tableName, String columnName) throws Exception {
+
+        String sql = "SELECT " + columnName + ", COUNT(*) " +
+                "FROM " + tableName +
+                " GROUP BY " + columnName +
+                " HAVING COUNT(*) > 1";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            return rs.next(); // true = duplicates exist
+        }
+    }
+
+public boolean hasCustomersBelowBalance(String tableName, int threshold) throws Exception {
+
+    String sql = "SELECT id, name, balance FROM " + tableName + " WHERE balance < ?";
+    boolean hasInvalid = false;
+    try (Connection conn = DBConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, threshold);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            hasInvalid = true;
+            System.out.println(
+                    "Invalid Customer -> ID: " + rs.getInt("id") +
+                            ", Name: " + rs.getString("name") +
+                            ", Balance: " + rs.getInt("balance")
+            );
+        }
+    }
+    return hasInvalid;
+}
+
 }

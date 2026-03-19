@@ -1,5 +1,7 @@
 package validation;
+
 import utils.QueryHelper;
+
 import java.util.List;
 
 public class DataValidation {
@@ -46,10 +48,31 @@ public class DataValidation {
         return invalidEmailCount == 0;
     }
 
+    //customer Balance to validate less than 2000
+
+    public boolean validateMinBalance(String table, int threshold) throws Exception {
+        QueryHelper helper = new QueryHelper();
+        boolean hasInvalid = helper.hasCustomersBelowBalance(table, threshold);
+        if (hasInvalid) {
+            System.out.println("Customers found with balance less than " + threshold);
+        }
+        return hasInvalid;
+    }
+
     public boolean validateSchemaMatches() throws Exception {
         List<String> sourceColumns = queryHelper.getColumnNames("source_customers");
         List<String> targetColumns = queryHelper.getColumnNames("target_customers");
-
         return sourceColumns.equals(targetColumns);
+    }
+
+    public boolean validateDuplicates(String table, String column) throws Exception {
+        QueryHelper helper = new QueryHelper();
+        boolean hasDuplicates = helper.hasDuplicates(table, column);
+        if (hasDuplicates) {
+            System.out.println("Duplicate records found in column: " + column);
+            return false;
+        }
+        System.out.println("No duplicates found in column: " + column);
+        return true;
     }
 }

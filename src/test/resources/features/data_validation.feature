@@ -20,6 +20,12 @@ Feature: Data Quality validation for ETL pipeline
     When I compare balances between source and target
     Then the balances should match
 
+  Scenario: Validate minimum balance rule
+    Given the source and target tables exist
+    When I validate customers balance with less than 2000
+    Then customers with invalid balance should be highlighted
+
+
   Scenario: Validate email format in target table
     Given the source and target tables exist
     When I validate target records for email quality

@@ -21,9 +21,24 @@ public class DataQualitySteps {
         validationResult = validator.validateRecordCount();
     }
 
+    @When("I check for duplicates in column {string}")
+    public void checkDuplicates(String column) throws Exception{
+        validationResult = validator.validateDuplicates("source_customers", column);
+    }
+
     @Then("the record counts should match")
     public void theRecordCountsShouldMatch() {
         Assert.assertTrue("Record counts do not match", validationResult);
+    }
+
+    @When("I validate customers balance with less than {int}")
+    public void validateCustomersWithLowBalance(int threshold) throws Exception{
+        validationResult = validator.validateMinBalance("source_customers", threshold);
+    }
+
+    @Then("customers with invalid balance should be highlighted")
+    public void customersShouldBeHighlighted() {
+        Assert.assertTrue("Customer found with less than threshold", validationResult);
     }
 
     @When("I validate target records for null IDs")
@@ -75,4 +90,6 @@ public class DataQualitySteps {
     public void theSchemasShouldMatch() {
         Assert.assertTrue("Source and target schemas do not match", validationResult);
     }
+
+
 }

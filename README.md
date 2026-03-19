@@ -127,3 +127,8 @@ target/cucumber-report.html
 This report shows the execution status of all data validation scenarios.
 
 Added new row in DB
+
+
+### Update – 19/03/2026
+
+Added a data quality check to identify customers with balance less than 2000 as part of a live coding exercise.
