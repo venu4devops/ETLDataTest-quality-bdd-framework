@@ -125,3 +125,5 @@ After execution, a Cucumber HTML report will be generated:
 target/cucumber-report.html
 
 This report shows the execution status of all data validation scenarios.
+
+Added new row in DB
